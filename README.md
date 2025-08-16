@@ -144,13 +144,13 @@ Mocky/
 │   ├── config/                    # Configuration constants and settings
 │   │   └── constants.js           # Server ports, file paths, default endpoints
 │   ├── middleware/                # Express middleware
-│   │   └── cors.js               # CORS configuration
+│   │   └── cors.js                # CORS configuration
 │   ├── routes/                    # API route definitions
-│   │   └── api.js                # REST API endpoints for managing mock endpoints
+│   │   └── api.js                 # REST API endpoints for managing mock endpoints
 │   ├── services/                  # Business logic services
-│   │   ├── configService.js      # Configuration file operations
-│   │   ├── routeService.js       # Dynamic route management
-│   │   └── socketService.js      # WebSocket event handling
+│   │   ├── configService.js       # Configuration file operations
+│   │   ├── routeService.js        # Dynamic route management
+│   │   └── socketService.js       # WebSocket event handling
 │   ├── server.js                  # Main server setup and initialization
 │   └── index.js                   # Application entry point
 ├── public/
