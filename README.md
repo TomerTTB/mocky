@@ -141,24 +141,24 @@ The application has been refactored into a modular, maintainable structure follo
 ```
 Mocky/
 ├── src/
-│   ├── config/           # Configuration constants and settings
-│   │   └── constants.js  # Server ports, file paths, default endpoints
-│   ├── middleware/       # Express middleware
-│   │   └── cors.js      # CORS configuration
-│   ├── routes/           # API route definitions
-│   │   └── api.js       # REST API endpoints for managing mock endpoints
-│   ├── services/         # Business logic services
-│   │   ├── configService.js  # Configuration file operations
-│   │   ├── routeService.js    # Dynamic route management
-│   │   └── socketService.js   # WebSocket event handling
-│   ├── server.js         # Main server setup and initialization
-│   └── index.js          # Application entry point
+│   ├── config/                    # Configuration constants and settings
+│   │   └── constants.js           # Server ports, file paths, default endpoints
+│   ├── middleware/                # Express middleware
+│   │   └── cors.js               # CORS configuration
+│   ├── routes/                    # API route definitions
+│   │   └── api.js                # REST API endpoints for managing mock endpoints
+│   ├── services/                  # Business logic services
+│   │   ├── configService.js      # Configuration file operations
+│   │   ├── routeService.js       # Dynamic route management
+│   │   └── socketService.js      # WebSocket event handling
+│   ├── server.js                  # Main server setup and initialization
+│   └── index.js                   # Application entry point
 ├── public/
-│   └── index.html        # Web interface
-├── package.json          # Dependencies and scripts
-├── package-lock.json     # Dependency lock file
-├── start.ps1             # Windows PowerShell startup script
-└── README.md             # Project documentation
+│   └── index.html                 # Web interface
+├── package.json                   # Dependencies and scripts
+├── package-lock.json              # Dependency lock file
+├── start.ps1                      # Windows PowerShell startup script
+└── README.md                      # Project documentation
 ```
 
 ### Architecture Overview
