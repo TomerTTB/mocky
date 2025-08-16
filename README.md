@@ -1,6 +1,12 @@
 # 🚀 Mocky: Dynamic Mock Server with Web UI
 
-**Node.js Express Socket.IO HTML5 CSS3 JavaScript Bootstrap**
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express.js-4.18+-000000?style=flat&logo=express&logoColor=white)](https://expressjs.com/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-4.7+-010101?style=flat&logo=socket.io&logoColor=white)](https://socket.io/)
+[![HTML5](https://img.shields.io/badge/HTML5-5.0+-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML/HTML5)
+[![CSS3](https://img.shields.io/badge/CSS3-3.0+-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.0+-7952B3?style=flat&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 
 ## Overview
 
@@ -171,23 +177,6 @@ Mocky/
 #### Configuration Layer
 - **Constants**: Centralized configuration values and default settings
 
-### Benefits of This Structure
-
-1. **Separation of Concerns**: Each module has a single, well-defined responsibility
-2. **Maintainability**: Easier to locate and modify specific functionality
-3. **Testability**: Individual services can be unit tested in isolation
-4. **Reusability**: Services can be imported and used by other parts of the application
-5. **Scalability**: New features can be added as new services without affecting existing code
-6. **Readability**: Smaller, focused files are easier to understand and navigate
-
-### Adding New Features
-
-To add new functionality:
-1. Create a new service in the `src/services/` directory
-2. Add any new routes in the `src/routes/` directory
-3. Update the main `src/server.js` to initialize and use new services
-4. Add any new constants to `src/config/constants.js`
-
 ## Development
 
 ### Scripts
@@ -211,19 +200,6 @@ If port 3003 is already in use, you can modify the port in `src/config/constants
 ```javascript
 API_PORT: 3004, // Change to any available port
 ```
-
-### Endpoints Not Working
-
-1. Check the browser console for errors.
-2. Verify the server is running.
-3. Ensure endpoint names don't contain special characters (e.g., spaces, slashes).
-4. Confirm JSON response bodies are valid.
-
-### Configuration Not Saving
-
-1. Check file permissions in the project directory.
-2. Verify the `endpoints.json` file is writable.
-3. Check server console for error messages.
 
 ## License
 
