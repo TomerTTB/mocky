@@ -1,0 +1,23 @@
+{
+  "c": {
+    "statusCode": 200,
+    "delay": 0,
+    "body": {
+      "message": "Response from http://localhost:3003/c"
+    }
+  },
+  "a": {
+    "statusCode": 200,
+    "delay": 0,
+    "body": {
+      "message": "Response from http://localhost:3003/a"
+    }
+  },
+  "b": {
+    "statusCode": 200,
+    "delay": 0,
+    "body": {
+      "message": "Response from http://localhost:3003/b"
+    }
+  }
+}
