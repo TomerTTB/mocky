@@ -1,5 +1,7 @@
 # 🚀 Mocky: Dynamic Mock Server with Web UI
 
+**Node.js Express Socket.IO HTML5 CSS3 JavaScript Bootstrap**
+
 ## Overview
 
 **Mocky** is a powerful and intuitive mock server designed to simplify API development and testing. It provides a real-time web interface that allows you to effortlessly create, manage, and simulate HTTP endpoints with custom responses, status codes, and delays. Whether you're a frontend developer needing a stable API during backend development, a QA engineer testing various API scenarios, or a full-stack developer streamlining your workflow, Mocky offers a flexible and efficient solution.
@@ -23,20 +25,6 @@ A mock server is an invaluable tool in various development scenarios:
 - **Demonstrations and Presentations**: Showcase application functionality even when external APIs are unavailable or unreliable.
 - **Offline Development**: Work on your application without an active internet connection by mocking external API dependencies.
 - **Fault Injection Testing**: Simulate various error conditions (e.g., 404, 500 errors, network delays) to test your application's resilience and error handling.
-
-## Technology Stack
-
-Mocky is built with a modern and efficient technology stack:
-
-- **Backend**: 
-  - Node.js [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-  - Express.js [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-  - Socket.IO [![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
-- **Frontend**: 
-  - HTML5 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML/HTML5)
-  - CSS3 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-  - JavaScript [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-  - Bootstrap 5 [![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 
 ## Quick Start
 
@@ -138,22 +126,69 @@ The server starts with three default endpoints:
 
 These can be modified or removed as needed.
 
-## Development
+## Project Architecture
 
-### Project Structure
+The application has been refactored into a modular, maintainable structure following best practices:
+
+### Directory Structure
 
 ```
 Mocky/
 ├── src/
-│   ├── server.js          # Main server file
-│   └── web-server.js      # WebSocket and API handling
+│   ├── config/           # Configuration constants and settings
+│   │   └── constants.js  # Server ports, file paths, default endpoints
+│   ├── middleware/       # Express middleware
+│   │   └── cors.js      # CORS configuration
+│   ├── routes/           # API route definitions
+│   │   └── api.js       # REST API endpoints for managing mock endpoints
+│   ├── services/         # Business logic services
+│   │   ├── configService.js  # Configuration file operations
+│   │   ├── routeService.js    # Dynamic route management
+│   │   └── socketService.js   # WebSocket event handling
+│   ├── server.js         # Main server setup and initialization
+│   └── index.js          # Application entry point
 ├── public/
-│   └── index.html         # Web interface
-├── package.json           # Dependencies and scripts
-├── package-lock.json      # Dependency lock file
-├── start.ps1              # Windows PowerShell startup script
-└── README.md              # Project documentation
+│   └── index.html        # Web interface
+├── package.json          # Dependencies and scripts
+├── package-lock.json     # Dependency lock file
+├── start.ps1             # Windows PowerShell startup script
+└── README.md             # Project documentation
 ```
+
+### Architecture Overview
+
+#### Services Layer
+- **ConfigService**: Handles reading/writing endpoint configurations to/from JSON files
+- **RouteService**: Manages dynamic Express route registration and unregistration
+- **SocketService**: Handles real-time WebSocket communication with clients
+
+#### Routes Layer
+- **ApiRoutes**: REST API endpoints for programmatic access to mock server management
+
+#### Middleware Layer
+- **CORS**: Cross-origin resource sharing configuration
+
+#### Configuration Layer
+- **Constants**: Centralized configuration values and default settings
+
+### Benefits of This Structure
+
+1. **Separation of Concerns**: Each module has a single, well-defined responsibility
+2. **Maintainability**: Easier to locate and modify specific functionality
+3. **Testability**: Individual services can be unit tested in isolation
+4. **Reusability**: Services can be imported and used by other parts of the application
+5. **Scalability**: New features can be added as new services without affecting existing code
+6. **Readability**: Smaller, focused files are easier to understand and navigate
+
+### Adding New Features
+
+To add new functionality:
+1. Create a new service in the `src/services/` directory
+2. Add any new routes in the `src/routes/` directory
+3. Update the main `src/server.js` to initialize and use new services
+4. Add any new constants to `src/config/constants.js`
+
+## Development
 
 ### Scripts
 
@@ -171,10 +206,10 @@ Mocky/
 
 ### Port Already in Use
 
-If port 3003 is already in use, you can modify the port in `src/server.js`:
+If port 3003 is already in use, you can modify the port in `src/config/constants.js`:
 
 ```javascript
-const apiPort = 3004; // Change to any available port
+API_PORT: 3004, // Change to any available port
 ```
 
 ### Endpoints Not Working
