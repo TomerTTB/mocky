@@ -11,21 +11,21 @@
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [🆕 What's New](#-whats-new)
-- [✨ Key Features](#-key-features)
-- [🎯 Use Cases](#-use-cases)
-- [🚀 Quick Start](#-quick-start)
-- [📖 Usage Guide](#-usage-guide)
+- [What's New](#-whats-new)
+- [Key Features](#-key-features)
+- [Use Cases](#-use-cases)
+- [Quick Start](#-quick-start)
+- [Usage Guide](#-usage-guide)
   - [Web Interface](#web-interface)
   - [HTTP Methods Support](#http-methods-support)
   - [Request Validation](#request-validation)
   - [Testing Endpoints](#testing-endpoints)
   - [REST API](#rest-api)
-- [⚙️ Configuration](#️-configuration)
-- [🏗️ Project Architecture](#️-project-architecture)
-- [🛠️ Development](#️-development)
-- [🔧 Troubleshooting](#-troubleshooting)
-- [📄 License](#-license)
+- [Configuration](#️-configuration)
+- [Project Architecture](#️-project-architecture)
+- [Development](#️-development)
+- [Troubleshooting](#-troubleshooting)
+- [License](#-license)
 
 ## Overview
 
@@ -34,39 +34,39 @@
 ## 🆕 What's New
 
 ### Version 2.0 Features
-- **🌐 Full HTTP Methods Support**: Complete support for GET, POST, PUT, PATCH, and DELETE methods
-- **✅ Advanced Request Validation**: Field-level validation for POST, PUT, and PATCH requests with detailed error responses
-- **🧪 Enhanced Testing Interface**: Built-in testing with custom request bodies and validation error display
-- **🎨 Redesigned UI**: Modern, organized interface with logical workflow sections
-- **📱 Mobile-Responsive Design**: Optimized for all screen sizes and devices
-- **🔧 Modular Architecture**: Clean, maintainable codebase with separated concerns
-- **⚡ Improved Performance**: Faster loading and better user experience
+- **Full HTTP Methods Support**: Complete support for GET, POST, PUT, PATCH, and DELETE methods
+- **Advanced Request Validation**: Field-level validation for POST, PUT, and PATCH requests with detailed error responses
+- **Enhanced Testing Interface**: Built-in testing with custom request bodies and validation error display
+- **Redesigned UI**: Modern, organized interface with logical workflow sections
+- **Mobile-Responsive Design**: Optimized for all screen sizes and devices
+- **Modular Architecture**: Clean, maintainable codebase with separated concerns
+- **Improved Performance**: Faster loading and better user experience
 
 ## ✨ Key Features
 
 ### Core Functionality
-- **🔄 Dynamic Endpoint Management**: Add, update, and remove API endpoints on the fly via an intuitive web interface
-- **⚡ Real-time Configuration**: Instant updates across all connected clients using WebSocket technology
-- **💾 Persistent Storage**: Automatic configuration persistence to `endpoints.json` with session recovery
-- **🎛️ Customizable Responses**: Full control over HTTP status codes, JSON response bodies, and network delays
+- **Dynamic Endpoint Management**: Add, update, and remove API endpoints on the fly via an intuitive web interface
+- **Real-time Configuration**: Instant updates across all connected clients using WebSocket technology
+- **Persistent Storage**: Automatic configuration persistence to `endpoints.json` with session recovery
+- **Customizable Responses**: Full control over HTTP status codes, JSON response bodies, and network delays
 
 ### HTTP Methods & Validation
-- **🌐 Complete HTTP Support**: GET, POST, PUT, PATCH, DELETE methods with method-specific behaviors
-- **✅ Request Validation**: Field-level validation for body methods with customizable required fields
-- **🔍 Detailed Error Responses**: Comprehensive validation error messages with field-specific details
-- **📝 Smart Request Bodies**: Auto-generated sample request bodies based on expected fields
+- **Complete HTTP Support**: GET, POST, PUT, PATCH, DELETE methods with method-specific behaviors
+- **Request Validation**: Field-level validation for body methods with customizable required fields
+- **Detailed Error Responses**: Comprehensive validation error messages with field-specific details
+- **Smart Request Bodies**: Auto-generated sample request bodies based on expected fields
 
 ### Testing & Development
-- **🧪 Integrated Testing Suite**: Test endpoints directly from the web interface with custom request bodies
-- **📊 Response Analysis**: Detailed test results with status codes, response times, and validation errors
-- **🎯 Method-Specific Testing**: Tailored testing interface for each HTTP method type
-- **📱 Cross-Platform Compatibility**: Works seamlessly across different browsers and devices
+- **Integrated Testing Suite**: Test endpoints directly from the web interface with custom request bodies
+- **Response Analysis**: Detailed test results with status codes, response times, and validation errors
+- **Method-Specific Testing**: Tailored testing interface for each HTTP method type
+- **Cross-Platform Compatibility**: Works seamlessly across different browsers and devices
 
 ### User Experience
-- **🎨 Modern Interface**: Clean, professional design with intuitive workflow organization
-- **📱 Mobile-First Design**: Fully responsive interface optimized for all screen sizes
-- **🔧 Organized Sections**: Logical grouping of configuration, validation, and testing features
-- **⚡ Fast Performance**: Optimized loading times and smooth interactions
+- **Modern Interface**: Clean, professional design with intuitive workflow organization
+- **Mobile-First Design**: Fully responsive interface optimized for all screen sizes
+- **Organized Sections**: Logical grouping of configuration, validation, and testing features
+- **Fast Performance**: Optimized loading times and smooth interactions
 
 ## 🎯 Use Cases
 
@@ -170,11 +170,11 @@ The Mocky web interface provides a comprehensive dashboard for managing your moc
 
 Each endpoint card is organized into logical sections:
 
-1. **📊 Quick Stats Overview**: Visual summary of method, status, delay, and response type
-2. **⚙️ Configuration Section**: Modify status codes and delays
-3. **📄 Response Section**: Edit response bodies and upload files
-4. **✅ Request Validation Section**: Configure field validation (body methods only)
-5. **🧪 Testing Section**: Test endpoints with custom request bodies
+1. **Quick Stats Overview**: Visual summary of method, status, delay, and response type
+2. **Configuration Section**: Modify status codes and delays
+3. **Response Section**: Edit response bodies and upload files
+4. **Request Validation Section**: Configure field validation (body methods only)
+5. **Testing Section**: Test endpoints with custom request bodies
 
 ### HTTP Methods Support
 
