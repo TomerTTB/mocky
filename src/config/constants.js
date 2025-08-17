@@ -3,7 +3,6 @@ const path = require('path');
 module.exports = {
     // Server configuration
     API_PORT: 3003,
-    WEB_PORT: 3004,
     
     // File paths
     CONFIG_FILE: path.join(__dirname, '../../endpoints.json'),

@@ -1,0 +1,49 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        printf "%s\n" "${{ secrets.VM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.VM_EXTERNAL_IP }} >> ~/.ssh/known_hosts
+
+    - name: Connect and deploy
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tomer@${{ secrets.VM_EXTERNAL_IP }} << 'EOF'
+          cd /home/tomer
+          
+          # Remove old code
+          if [ -d mocky ]; then
+            rm -rf mocky
+          fi
+          
+          # Clone fresh code
+          echo "📥 Cloning latest code..."
+          git clone https://github.com/TomerTTB/mocky.git
+          cd mocky
+          
+          # Install dependencies
+          echo "📦 Installing dependencies..."
+          npm install
+          
+          # Start/restart application
+          echo "🚀 Starting application..."
+          pm2 delete mocky-app 2>/dev/null || true
+          pm2 start npm --name mocky-app -- start
+          pm2 save
+          
+          echo "✅ Deployment completed successfully!"
+        EOF
