@@ -12,12 +12,31 @@ class ConfigService {
         try {
             if (fs.existsSync(CONFIG_FILE)) {
                 const data = fs.readFileSync(CONFIG_FILE, 'utf8');
-                this.endpointConfigs = JSON.parse(data);
+                const rawConfigs = JSON.parse(data);
+                this.endpointConfigs = this.migrateConfigFormat(rawConfigs);
                 console.log('Loaded endpoint configurations from file');
             }
         } catch (error) {
             console.error('Error loading configurations:', error);
         }
+    }
+
+    // Migrate old configuration format to new format for backward compatibility
+    migrateConfigFormat(configs) {
+        const migratedConfigs = {};
+        
+        for (const [endpoint, config] of Object.entries(configs)) {
+            migratedConfigs[endpoint] = {
+                method: config.method || 'GET', // Default to GET for backward compatibility
+                statusCode: config.statusCode,
+                delay: config.delay,
+                body: config.body,
+                ...(config.expectedFields && { expectedFields: config.expectedFields }),
+                ...(config.requestSchema && { requestSchema: config.requestSchema })
+            };
+        }
+        
+        return migratedConfigs;
     }
 
     // Save configurations to file
@@ -46,7 +65,8 @@ class ConfigService {
             throw new Error('Endpoint already exists');
         }
         
-        this.endpointConfigs[endpoint] = config;
+        const validatedConfig = this.validateEndpointConfig(config);
+        this.endpointConfigs[endpoint] = validatedConfig;
         this.saveConfigurations();
         return this.endpointConfigs;
     }
@@ -57,7 +77,9 @@ class ConfigService {
             throw new Error('Endpoint not found');
         }
         
-        this.endpointConfigs[endpoint] = { ...this.endpointConfigs[endpoint], ...config };
+        const mergedConfig = { ...this.endpointConfigs[endpoint], ...config };
+        const validatedConfig = this.validateEndpointConfig(mergedConfig);
+        this.endpointConfigs[endpoint] = validatedConfig;
         this.saveConfigurations();
         return this.endpointConfigs;
     }
@@ -91,6 +113,60 @@ class ConfigService {
         
         this.saveConfigurations();
         return this.endpointConfigs;
+    }
+
+    // Validate endpoint configuration
+    validateEndpointConfig(config) {
+        const validatedConfig = {
+            method: config.method || 'GET',
+            statusCode: config.statusCode || 200,
+            delay: config.delay || 0,
+            body: config.body || {}
+        };
+
+        // Validate method
+        const validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+        if (!validMethods.includes(validatedConfig.method)) {
+            throw new Error(`Method must be one of: ${validMethods.join(', ')}`);
+        }
+
+        // Validate status code
+        if (typeof validatedConfig.statusCode !== 'number' || validatedConfig.statusCode < 100 || validatedConfig.statusCode > 599) {
+            throw new Error('Status code must be a number between 100 and 599');
+        }
+
+        // Validate delay
+        if (typeof validatedConfig.delay !== 'number' || validatedConfig.delay < 0) {
+            throw new Error('Delay must be a non-negative number');
+        }
+
+        // Add expectedFields for POST endpoints if provided
+        if (config.expectedFields) {
+            if (!Array.isArray(config.expectedFields)) {
+                throw new Error('expectedFields must be an array');
+            }
+            validatedConfig.expectedFields = config.expectedFields;
+        }
+
+        // Add requestSchema for POST endpoints if provided
+        if (config.requestSchema) {
+            if (typeof config.requestSchema !== 'object') {
+                throw new Error('requestSchema must be an object');
+            }
+            validatedConfig.requestSchema = config.requestSchema;
+        }
+
+        return validatedConfig;
+    }
+
+    // Get default method configuration
+    getDefaultMethodConfig() {
+        return {
+            method: 'GET',
+            statusCode: 200,
+            delay: 0,
+            body: {}
+        };
     }
 }
 

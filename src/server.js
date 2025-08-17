@@ -5,6 +5,7 @@ const path = require('path');
 
 // Import services and middleware
 const corsMiddleware = require('./middleware/cors');
+const errorHandler = require('./middleware/errorHandler');
 const ConfigService = require('./services/configService');
 const RouteService = require('./services/routeService');
 const SocketService = require('./services/socketService');
@@ -46,6 +47,9 @@ app.use(express.static(PUBLIC_DIR));
 app.get('/', (req, res) => {
     res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });
+
+// Add error handling middleware (must be last)
+app.use(errorHandler);
 
 // Start mock API server
 server.listen(API_PORT, () => {

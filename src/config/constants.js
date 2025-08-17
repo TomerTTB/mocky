@@ -12,16 +12,19 @@ module.exports = {
     // Default endpoints
     DEFAULT_ENDPOINTS: {
         'a': { 
+            method: 'GET',
             statusCode: 200, 
             body: { message: 'Response from http://localhost:3003/a' }, 
             delay: 0 
         },
         'b': { 
+            method: 'GET',
             statusCode: 200, 
             body: { message: 'Response from http://localhost:3003/b' }, 
             delay: 0 
         },
         'c': { 
+            method: 'GET',
             statusCode: 200, 
             body: { message: 'Response from http://localhost:3003/c' }, 
             delay: 0 
@@ -30,5 +33,5 @@ module.exports = {
     
     // CORS configuration
     CORS_ORIGIN: "http://localhost:3003",
-    CORS_METHODS: ["GET", "POST", "DELETE"]
+    CORS_METHODS: ["GET", "POST", "PUT", "PATCH", "DELETE"]
 };

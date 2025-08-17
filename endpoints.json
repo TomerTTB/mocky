@@ -1,5 +1,6 @@
 {
   "c": {
+    "method": "GET",
     "statusCode": 200,
     "delay": 0,
     "body": {
@@ -7,17 +8,78 @@
     }
   },
   "a": {
+    "method": "GET",
     "statusCode": 200,
-    "delay": 0,
+    "delay": 500,
     "body": {
       "message": "Response from http://localhost:3003/a"
     }
   },
   "b": {
+    "method": "GET",
     "statusCode": 200,
     "delay": 0,
     "body": {
       "message": "Response from http://localhost:3003/b"
+    }
+  },
+  "test-post": {
+    "method": "POST",
+    "statusCode": 200,
+    "delay": 0,
+    "body": {
+      "message": "Created successfully"
+    },
+    "expectedFields": [
+      "name",
+      "email",
+      "LAST NAME"
+    ],
+    "requestSchema": {
+      "type": "object",
+      "required": [
+        "name",
+        "email"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "test-put": {
+    "method": "PUT",
+    "statusCode": 200,
+    "delay": 0,
+    "body": {
+      "message": "Updated successfully"
+    },
+    "expectedFields": [
+      "id",
+      "name"
+    ]
+  },
+  "test-patch": {
+    "method": "PATCH",
+    "statusCode": 200,
+    "delay": 0,
+    "body": {
+      "message": "Patched successfully"
+    },
+    "expectedFields": [
+      "id"
+    ]
+  },
+  "test-delete": {
+    "method": "DELETE",
+    "statusCode": 204,
+    "delay": 0,
+    "body": {
+      "message": "Deleted successfully"
     }
   }
 }
