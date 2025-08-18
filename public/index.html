@@ -20,67 +20,73 @@
         </div>
 
         <!-- Add New Endpoint Form -->
-        <div class="add-endpoint-form card mb-4">
+        <div class="add-endpoint-form card mb-3">
             <div class="card-header">
                 <h4 class="mb-0">✨ Add New Endpoint</h4>
             </div>
             <div class="card-body">
-                <!-- Basic Configuration Row -->
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <label class="form-label fw-semibold">Endpoint Name</label>
-                        <input type="text" class="form-control" id="newEndpointName"
-                            placeholder="e.g., users, products, auth">
-                        <small class="form-text text-muted">URL path for your endpoint</small>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label fw-semibold">Method</label>
-                        <select class="form-control" id="newMethod">
-                            <option value="GET">GET</option>
-                            <option value="POST">POST</option>
-                            <option value="PUT">PUT</option>
-                            <option value="PATCH">PATCH</option>
-                            <option value="DELETE">DELETE</option>
-                        </select>
-                        <small class="form-text text-muted">HTTP method</small>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label fw-semibold">Status Code</label>
-                        <input type="number" class="form-control" id="newStatusCode" value="200" min="100" max="599">
-                        <small class="form-text text-muted">Response status</small>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label fw-semibold">Delay (ms)</label>
-                        <input type="number" class="form-control" id="newDelay" value="0" min="0" max="10000">
-                        <small class="form-text text-muted">Response delay</small>
-                    </div>
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button class="btn btn-success btn-lg w-100" id="addEndpointBtn">
-                            <i class="bi bi-plus-circle me-2"></i>Add Endpoint
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Response Configuration Row -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Response Body (JSON)</label>
-                        <textarea class="form-control" id="newResponseBody" rows="3"
-                            placeholder='{"message": "Hello World", "status": "success"}'></textarea>
-                        <div class="mt-2 d-flex gap-2">
-                            <input type="file" id="newResponseFile" accept=".json" class="form-control form-control-sm"
-                                style="max-width: 200px;">
-                            <button type="button" class="btn btn-outline-secondary btn-sm"
-                                id="newUploadBtn">Upload</button>
+                <!-- Compact Configuration Layout -->
+                <div class="row g-3 mb-3">
+                    <!-- Left Column: Basic Config -->
+                    <div class="col-lg-4">
+                        <div class="config-group">
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Endpoint Name</label>
+                                    <input type="text" class="form-control form-control-sm" id="newEndpointName"
+                                        placeholder="e.g., users, products, auth">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold">Method</label>
+                                    <select class="form-control form-control-sm" id="newMethod">
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="PATCH">PATCH</option>
+                                        <option value="DELETE">DELETE</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold">Status</label>
+                                    <input type="number" class="form-control form-control-sm" id="newStatusCode"
+                                        value="200" min="100" max="599">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Delay (ms)</label>
+                                    <input type="number" class="form-control form-control-sm" id="newDelay" value="0"
+                                        min="0" max="10000">
+                                </div>
+                            </div>
                         </div>
-                        <small class="form-text text-muted">JSON response body or upload a .json file</small>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Expected Fields <span class="badge bg-info">Body
-                                methods</span></label>
-                        <textarea class="form-control" id="newExpectedFields" rows="3"
-                            placeholder='["name", "email", "phone"]' disabled></textarea>
-                        <small class="form-text text-muted">Required fields for request validation (JSON array)</small>
+
+                    <!-- Middle Column: Response Body -->
+                    <div class="col-lg-4">
+                        <div class="config-group">
+                            <label class="form-label fw-semibold">Response Body (JSON)</label>
+                            <textarea class="form-control form-control-sm" id="newResponseBody" rows="5"
+                                placeholder='{"message": "Hello World", "status": "success"}'></textarea>
+                            <div class="mt-2 d-flex gap-1">
+                                <input type="file" id="newResponseFile" accept=".json"
+                                    class="form-control form-control-sm">
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    id="newUploadBtn">📁</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Expected Fields & Add Button -->
+                    <div class="col-lg-4">
+                        <div class="config-group">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Expected Fields</label>
+                                <textarea class="form-control form-control-sm" id="newExpectedFields" rows="3"
+                                    placeholder='["name", "email", "phone"]' disabled></textarea>
+                            </div>
+                            <button class="btn btn-success btn-sm w-100" id="addEndpointBtn" style="height: 50px;">
+                                Add Endpoint
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -95,116 +101,94 @@
     </div>
 
     <template id="endpoint-template">
-        <div class="col-md-4">
+        <div class="col-12 mb-3">
             <div class="card endpoint-card">
                 <button class="btn btn-danger btn-sm remove-btn" title="Remove Endpoint">×</button>
-                <div class="card-header">
-                    <div class="mb-2">
-                        <label class="form-label small mb-1">Endpoint Name:</label>
-                        <input type="text" class="form-control form-control-sm endpoint-name" value="{endpoint}"
-                            placeholder="e.g., users, products, auth">
-                        <small class="form-text text-muted">URL path for your endpoint</small>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label small mb-1">Method:</label>
-                        <select class="form-control form-control-sm endpoint-method">
-                            <option value="GET">GET</option>
-                            <option value="POST">POST</option>
-                            <option value="PUT">PUT</option>
-                            <option value="PATCH">PATCH</option>
-                            <option value="DELETE">DELETE</option>
-                        </select>
-                        <small class="form-text text-muted">HTTP method</small>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <small class="text-muted endpoint-url me-2">http://localhost:3003/{endpoint}</small>
-                        <button class="btn btn-outline-secondary btn-sm copy-url-btn" title="Copy URL to clipboard">
-                            Copy
-                        </button>
-                    </div>
-                </div>
                 <div class="card-body">
-                    <!-- Quick Stats Overview -->
-                    <div class="endpoint-stats mb-4">
-                        <div class="endpoint-stat">
-                            <div class="endpoint-stat-value" id="method">{method}</div>
-                            <small>Method</small>
-                        </div>
-                        <div class="endpoint-stat">
-                            <div class="endpoint-stat-value" id="statusCode">{statusCode}</div>
-                            <small>Status</small>
-                        </div>
-                        <div class="endpoint-stat">
-                            <div class="endpoint-stat-value" id="delay">{delay}ms</div>
-                            <small>Delay</small>
-                        </div>
-                        <div class="endpoint-stat">
-                            <div class="endpoint-stat-value">JSON</div>
-                            <small>Response</small>
-                        </div>
-                    </div>
-
-                    <!-- Configuration Section -->
-                    <div class="config-section mb-4">
-                        <h6 class="section-title">⚙️ Configuration</h6>
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="form-label">Status Code:</label>
-                                <input type="number" class="form-control status-code" value="200" min="100" max="599">
+                    <!-- Compact Configuration Layout -->
+                    <div class="row g-3 mb-3">
+                        <!-- Left Column: Basic Config -->
+                        <div class="col-lg-4">
+                            <div class="config-group">
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <label class="form-label fw-semibold">Endpoint Name</label>
+                                        <input type="text" class="form-control form-control-sm endpoint-name"
+                                            value="{endpoint}" placeholder="e.g., users, products, auth">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label fw-semibold">Method</label>
+                                        <select class="form-control form-control-sm endpoint-method">
+                                            <option value="GET">GET</option>
+                                            <option value="POST">POST</option>
+                                            <option value="PUT">PUT</option>
+                                            <option value="PATCH">PATCH</option>
+                                            <option value="DELETE">DELETE</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label fw-semibold">Status</label>
+                                        <input type="number" class="form-control form-control-sm status-code"
+                                            value="200" min="100" max="599">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label fw-semibold">Delay (ms)</label>
+                                        <input type="number" class="form-control form-control-sm delay" value="0"
+                                            min="0" max="10000">
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <div class="endpoint-url-compact">
+                                        <span class="endpoint-url">http://localhost:3003/{endpoint}</span>
+                                        <button class="btn btn-outline-secondary btn-sm copy-url-btn"
+                                            title="Copy URL">📋</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label">Delay (ms):</label>
-                                <input type="number" class="form-control delay" value="0" min="0" max="10000">
+                        </div>
+
+                        <!-- Middle Column: Response & Validation -->
+                        <div class="col-lg-4">
+                            <div class="config-group">
+                                <label class="form-label fw-semibold">Response Body (JSON)</label>
+                                <textarea class="form-control form-control-sm response-body" rows="5"
+                                    placeholder='{"message": "Hello World", "status": "success"}'></textarea>
+                                <div class="mt-2 d-flex gap-1">
+                                    <input type="file" class="form-control form-control-sm response-file"
+                                        accept=".json">
+                                    <button type="button"
+                                        class="btn btn-outline-secondary btn-sm upload-btn">📁</button>
+                                </div>
+
+                                <div class="expected-fields-section mt-3">
+                                    <label class="form-label fw-semibold">Expected Fields</label>
+                                    <textarea class="form-control form-control-sm expected-fields" rows="2"
+                                        placeholder='["name", "email", "phone"]'></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Response Section -->
-                    <div class="response-section mb-4">
-                        <h6 class="section-title">📄 Response</h6>
-                        <div class="mb-3">
-                            <label class="form-label">Response Body (JSON):</label>
-                            <textarea class="form-control response-body" rows="4"></textarea>
-                            <div class="mt-2 d-flex gap-2">
-                                <input type="file" class="form-control form-control-sm response-file" accept=".json"
-                                    style="max-width: 200px;">
-                                <button type="button"
-                                    class="btn btn-outline-secondary btn-sm upload-btn">Upload</button>
+                        <!-- Right Column: Testing -->
+                        <div class="col-lg-4">
+                            <div class="config-group">
+                                <div class="test-request-body-section mb-3">
+                                    <label class="form-label fw-semibold">Test Request Body</label>
+                                    <textarea class="form-control form-control-sm test-request-body" rows="3"
+                                        placeholder='{"name": "John", "email": "john@example.com"}'></textarea>
+                                </div>
+
+                                <div class="d-flex gap-2 mb-3">
+                                    <button class="btn btn-secondary btn-sm test-btn flex-fill">Test</button>
+                                    <button class="btn btn-primary btn-sm update-btn flex-fill">Update</button>
+                                </div>
+
+                                <div class="response-preview-compact">
+                                    <small class="text-muted fw-semibold">Test Response:</small>
+                                    <pre class="test-response"></pre>
+                                </div>
+
+                                <div class="update-status mt-2"></div>
                             </div>
-                            <small class="form-text text-muted">JSON response body or upload a .json file</small>
-                        </div>
-                    </div>
-
-                    <!-- Validation Section (for body methods) -->
-                    <div class="validation-section mb-4 expected-fields-section" style="display: none;">
-                        <h6 class="section-title">✅ Request Validation</h6>
-                        <div class="mb-3">
-                            <label class="form-label">Expected Fields <span class="badge bg-info">Body
-                                    methods</span></label>
-                            <textarea class="form-control expected-fields" rows="2"
-                                placeholder='["name", "email", "phone"]'></textarea>
-                            <small class="form-text text-muted">Required fields for request validation (JSON
-                                array)</small>
-                        </div>
-                    </div>
-
-                    <!-- Testing Section -->
-                    <div class="testing-section mb-4">
-                        <h6 class="section-title">🧪 Testing</h6>
-                        <div class="mb-3 test-request-body-section" style="display: none;">
-                            <label class="form-label">Test Request Body (JSON):</label>
-                            <textarea class="form-control test-request-body" rows="3"
-                                placeholder='{"name": "John", "email": "john@example.com"}'></textarea>
-                            <small class="form-text text-muted">JSON body to send with request for testing</small>
-                        </div>
-                        <div class="mb-3">
-                            <button class="btn btn-secondary test-btn me-2">🚀 Test Endpoint</button>
-                            <button class="btn btn-primary update-btn">💾 Update Configuration</button>
-                            <div class="update-status text-success mt-2"></div>
-                        </div>
-                        <div class="response-preview">
-                            <small class="text-muted">Test Response:</small>
-                            <pre class="test-response mt-2"></pre>
                         </div>
                     </div>
                 </div>

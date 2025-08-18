@@ -24,7 +24,8 @@ export function createEndpointCard(endpoint, config, socket, endpointElements, s
 
 function getCardElements(card) {
     return {
-        card: card.querySelector('.col-md-4'),
+        card: card.querySelector('.col-12'),
+        endpointUrlDisplay: card.querySelector('.endpoint-url-display'),
         endpointNameInput: card.querySelector('.endpoint-name'),
         endpointMethodSelect: card.querySelector('.endpoint-method'),
         endpointUrl: card.querySelector('.endpoint-url'),
@@ -79,31 +80,15 @@ function setupInitialValues(elements, endpoint, config, method) {
 }
 
 function updateEndpointStats(card, method, config) {
-    const methodStat = card.querySelector('#method');
-    const statusCodeStat = card.querySelector('#statusCode');
-    const delayStat = card.querySelector('#delay');
-    if (methodStat) methodStat.textContent = method;
-    if (statusCodeStat) statusCodeStat.textContent = config.statusCode;
-    if (delayStat) delayStat.textContent = config.delay + 'ms';
+    // In the new template structure, we don't have separate stat display elements
+    // The values are shown directly in the form inputs, so this function is no longer needed
+    // but we'll keep it for compatibility
 }
 
 function setupEventListeners(elements, endpoint, method, socket, endpointElements) {
-    // Update stats when inputs change
-    elements.statusInput.addEventListener('input', () => {
-        const statusCodeStat = elements.card.querySelector('#statusCode');
-        if (statusCodeStat) statusCodeStat.textContent = elements.statusInput.value;
-    });
-    
-    elements.delayInput.addEventListener('input', () => {
-        const delayStat = elements.card.querySelector('#delay');
-        if (delayStat) delayStat.textContent = elements.delayInput.value + 'ms';
-    });
-    
     // Handle method dropdown change
     elements.endpointMethodSelect.addEventListener('change', (e) => {
         const method = e.target.value;
-        const methodStat = elements.card.querySelector('#method');
-        if (methodStat) methodStat.textContent = method;
         
         if (METHODS_WITH_BODY.includes(method)) {
             elements.expectedFieldsSection.style.display = 'block';
@@ -146,9 +131,12 @@ function setupEventListeners(elements, endpoint, method, socket, endpointElement
     elements.endpointNameInput.addEventListener('input', () => {
         const newName = elements.endpointNameInput.value.trim();
         if (newName) {
-            elements.endpointUrl.textContent = `http://localhost:3003/${newName}`;
+            const fullUrl = `http://localhost:3003/${newName}`;
+            elements.endpointUrl.textContent = fullUrl;
+            elements.endpointUrlDisplay.textContent = fullUrl;
         } else {
             elements.endpointUrl.textContent = `http://localhost:3003/...`;
+            elements.endpointUrlDisplay.textContent = `http://localhost:3003/...`;
         }
     });
 
