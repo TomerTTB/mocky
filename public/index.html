@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="mt-2">
                                     <div class="endpoint-url-compact">
-                                        <span class="endpoint-url">http://localhost:3003/{endpoint}</span>
+                                        <span class="endpoint-url">{baseUrl}/{endpoint}</span>
                                         <button class="btn btn-outline-secondary btn-sm copy-url-btn"
                                             title="Copy URL">📋</button>
                                     </div>
@@ -197,6 +197,7 @@
     </template>
 
     <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
+    <script src="js/config.js"></script>
     <script type="module" src="js/index.js"></script>
 </body>
 

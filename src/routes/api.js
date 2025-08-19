@@ -10,6 +10,16 @@ class ApiRoutes {
     }
 
     setupRoutes() {
+        // Get server configuration
+        router.get('/config', (req, res) => {
+            const { BASE_URL, LOCAL_IP, API_PORT } = require('../config/constants');
+            res.json({ 
+                baseUrl: BASE_URL,
+                localIp: LOCAL_IP,
+                port: API_PORT
+            });
+        });
+
         // Get all endpoint configurations
         router.get('/endpoints', (req, res) => {
             res.json(this.configService.getAllConfigs());

@@ -18,8 +18,8 @@ if (-not (Test-Path "node_modules")) {
 }
 
 # Start the server
-Write-Host "Starting server on http://localhost:3003" -ForegroundColor Green
-Write-Host "Web interface will be available at http://localhost:3003" -ForegroundColor Cyan
+Write-Host "Starting Mock Server..." -ForegroundColor Green
+Write-Host "The server will auto-detect your machine's IP address" -ForegroundColor Cyan
 Write-Host "Press Ctrl+C to stop the server" -ForegroundColor Yellow
 
 npm start

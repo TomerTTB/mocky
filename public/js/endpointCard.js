@@ -73,7 +73,7 @@ function setupInitialValues(elements, endpoint, config, method) {
     }
 
     // Update the URL in the template
-    elements.endpointUrl.textContent = `http://localhost:3003/${endpoint}`;
+    elements.endpointUrl.textContent = window.configManager.getEndpointUrl(endpoint);
 
     // Update endpoint stats
     updateEndpointStats(elements.card, method, config);
@@ -123,7 +123,7 @@ function setupEventListeners(elements, endpoint, method, socket, endpointElement
     // Handle copy URL button
     elements.copyUrlBtn.addEventListener('click', async () => {
         const currentEndpointName = elements.endpointNameInput.value.trim() || endpoint;
-        const urlToCopy = `http://localhost:3003/${currentEndpointName}`;
+        const urlToCopy = window.configManager.getEndpointUrl(currentEndpointName);
         await copyToClipboard(urlToCopy, elements.copyUrlBtn);
     });
 
@@ -131,12 +131,13 @@ function setupEventListeners(elements, endpoint, method, socket, endpointElement
     elements.endpointNameInput.addEventListener('input', () => {
         const newName = elements.endpointNameInput.value.trim();
         if (newName) {
-            const fullUrl = `http://localhost:3003/${newName}`;
+            const fullUrl = window.configManager.getEndpointUrl(newName);
             elements.endpointUrl.textContent = fullUrl;
             elements.endpointUrlDisplay.textContent = fullUrl;
         } else {
-            elements.endpointUrl.textContent = `http://localhost:3003/...`;
-            elements.endpointUrlDisplay.textContent = `http://localhost:3003/...`;
+            const baseUrl = window.configManager.getBaseUrl();
+            elements.endpointUrl.textContent = `${baseUrl}/...`;
+            elements.endpointUrlDisplay.textContent = `${baseUrl}/...`;
         }
     });
 
@@ -167,14 +168,14 @@ function handleUpdateEndpoint(elements, endpoint, socket) {
         if (!newName) {
             alert('Please enter a valid endpoint name');
             elements.endpointNameInput.value = oldName;
-            elements.endpointUrl.textContent = `http://localhost:3003/${oldName}`;
+            elements.endpointUrl.textContent = window.configManager.getEndpointUrl(oldName);
             return;
         }
         
         if (newName.includes('/') || newName.includes('\\') || newName.includes(' ')) {
             alert('Endpoint name cannot contain spaces, slashes, or backslashes');
             elements.endpointNameInput.value = oldName;
-            elements.endpointUrl.textContent = `http://localhost:3003/${oldName}`;
+            elements.endpointUrl.textContent = window.configManager.getEndpointUrl(oldName);
             return;
         }
         
@@ -257,7 +258,7 @@ async function handleTestEndpoint(elements, endpoint) {
             }
         }
         
-        const response = await fetch(`http://localhost:3003/${currentEndpointName}`, fetchOptions);
+        const response = await fetch(window.configManager.getEndpointUrl(currentEndpointName), fetchOptions);
         const duration = Date.now() - start;
         
         let responseText = `Status: ${response.status}\nDuration: ${duration}ms\n`;
@@ -354,7 +355,7 @@ function updateExistingCard(elements, endpoint, config) {
     elements.statusInput.value = config.statusCode;
     elements.delayInput.value = config.delay;
     elements.bodyInput.value = JSON.stringify(config.body, null, 2);
-    elements.endpointUrl.textContent = `http://localhost:3003/${endpoint}`;
+    elements.endpointUrl.textContent = window.configManager.getEndpointUrl(endpoint);
     elements.endpointNameInput.value = endpoint;
     elements.endpointNameInput.dataset.originalEndpoint = endpoint;
     elements.endpointMethodSelect.value = method;

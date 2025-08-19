@@ -10,7 +10,7 @@ const ConfigService = require('./services/configService');
 const RouteService = require('./services/routeService');
 const SocketService = require('./services/socketService');
 const ApiRoutes = require('./routes/api');
-const { API_PORT, PUBLIC_DIR, CORS_ORIGIN, CORS_METHODS } = require('./config/constants');
+const { API_PORT, PUBLIC_DIR, CORS_ORIGIN, CORS_METHODS, BASE_URL, LOCAL_IP } = require('./config/constants');
 
 // Initialize Express app
 const app = express();
@@ -53,6 +53,7 @@ app.use(errorHandler);
 
 // Start mock API server
 server.listen(API_PORT, () => {
-    console.log(`Mock API server running on http://localhost:${API_PORT}`);
-    console.log(`Web interface available at http://localhost:${API_PORT}`);
+    console.log(`Mock API server running on ${BASE_URL}`);
+    console.log(`Web interface available at ${BASE_URL}`);
+    console.log(`Local IP detected: ${LOCAL_IP}`);
 }); 
