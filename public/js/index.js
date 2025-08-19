@@ -1,6 +1,5 @@
 // Main application entry point
 import { initializeAddEndpoint } from './addEndpoint.js';
-import { renderEndpoints } from './endpointCard.js';
 import { initializeSocketHandlers } from './socketHandlers.js';
 
 // Initialize Socket.IO connection
@@ -27,5 +26,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize socket event handlers
     initializeSocketHandlers(socket, endpointElements, statusElements);
 
+    // Initialize endpoint count (will be updated when configs load)
+    updateInitialEndpointCount();
+
     console.log('Mock Server UI initialized successfully');
 });
+
+// Initialize endpoint count display
+function updateInitialEndpointCount() {
+    const countElement = document.getElementById('endpointCount');
+    if (countElement) {
+        countElement.textContent = '0 endpoints';
+    }
+}

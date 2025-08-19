@@ -4,21 +4,21 @@ import { METHODS_WITH_BODY, handleFileUpload, copyToClipboard } from './utils.js
 export function createEndpointCard(endpoint, config, socket, endpointElements, statusElements) {
     const template = document.getElementById('endpoint-template');
     const card = template.content.cloneNode(true);
-    
+
     // Get all the elements from the card
     const elements = getCardElements(card);
-    
+
     // Set initial values
     const method = config.method || 'GET';
     setupInitialValues(elements, endpoint, config, method);
-    
+
     // Setup event listeners
     setupEventListeners(elements, endpoint, method, socket, endpointElements);
-    
+
     // Store elements for later updates
     endpointElements[endpoint] = elements;
     statusElements[endpoint] = elements.updateStatus;
-    
+
     return card;
 }
 
@@ -54,7 +54,7 @@ function setupInitialValues(elements, endpoint, config, method) {
     elements.statusInput.value = config.statusCode;
     elements.delayInput.value = config.delay;
     elements.bodyInput.value = JSON.stringify(config.body, null, 2);
-    
+
     // Handle expectedFields and test request body for methods that support request bodies
     if (METHODS_WITH_BODY.includes(method)) {
         elements.expectedFieldsSection.style.display = 'block';
@@ -68,7 +68,7 @@ function setupInitialValues(elements, endpoint, config, method) {
             });
             elements.testRequestBodyInput.value = JSON.stringify(sampleBody, null, 2);
         } else {
-            elements.testRequestBodyInput.value = JSON.stringify({"sample": "data"}, null, 2);
+            elements.testRequestBodyInput.value = JSON.stringify({ "sample": "data" }, null, 2);
         }
     }
 
@@ -89,12 +89,12 @@ function setupEventListeners(elements, endpoint, method, socket, endpointElement
     // Handle method dropdown change
     elements.endpointMethodSelect.addEventListener('change', (e) => {
         const method = e.target.value;
-        
+
         if (METHODS_WITH_BODY.includes(method)) {
             elements.expectedFieldsSection.style.display = 'block';
             elements.testRequestBodySection.style.display = 'block';
             // Pre-populate test request body with sample data
-            elements.testRequestBodyInput.value = JSON.stringify({"sample": "data"}, null, 2);
+            elements.testRequestBodyInput.value = JSON.stringify({ "sample": "data" }, null, 2);
         } else {
             elements.expectedFieldsSection.style.display = 'none';
             elements.testRequestBodySection.style.display = 'none';
@@ -106,13 +106,13 @@ function setupEventListeners(elements, endpoint, method, socket, endpointElement
     // Handle file upload for existing endpoints
     elements.uploadBtn.addEventListener('click', () => {
         handleFileUpload(
-            elements.responseFileInput, 
-            elements.bodyInput, 
+            elements.responseFileInput,
+            elements.bodyInput,
             (message, type) => {
                 elements.updateStatus.textContent = message;
                 elements.updateStatus.classList.remove('text-danger', 'text-success');
                 elements.updateStatus.classList.add(type === 'success' ? 'text-success' : 'text-danger', 'show');
-                
+
                 setTimeout(() => {
                     elements.updateStatus.classList.remove('show');
                 }, 3000);
@@ -164,35 +164,35 @@ function handleUpdateEndpoint(elements, endpoint, socket) {
     try {
         const newName = elements.endpointNameInput.value.trim();
         const oldName = elements.endpointNameInput.dataset.originalEndpoint;
-        
+
         if (!newName) {
             alert('Please enter a valid endpoint name');
             elements.endpointNameInput.value = oldName;
             elements.endpointUrl.textContent = window.configManager.getEndpointUrl(oldName);
             return;
         }
-        
+
         if (newName.includes('/') || newName.includes('\\') || newName.includes(' ')) {
             alert('Endpoint name cannot contain spaces, slashes, or backslashes');
             elements.endpointNameInput.value = oldName;
             elements.endpointUrl.textContent = window.configManager.getEndpointUrl(oldName);
             return;
         }
-        
+
         // Check if this is a rename operation
         if (newName !== oldName) {
             // This is a rename operation
             socket.emit('renameEndpoint', { oldName: oldName, newName: newName });
-            
+
             // Show renaming status
             elements.updateStatus.textContent = 'Renaming endpoint...';
             elements.updateStatus.classList.remove('text-success');
             elements.updateStatus.classList.add('text-warning', 'show');
-            
+
             // Update the original endpoint reference
             elements.endpointNameInput.dataset.originalEndpoint = newName;
         }
-        
+
         // Always send the updated configuration (for both rename and regular updates)
         const method = elements.endpointMethodSelect.value;
         const newConfig = {
@@ -203,7 +203,7 @@ function handleUpdateEndpoint(elements, endpoint, socket) {
                 body: JSON.parse(elements.bodyInput.value)
             }
         };
-        
+
         // Add expectedFields for body methods
         if (METHODS_WITH_BODY.includes(method) && elements.expectedFieldsInput.value.trim()) {
             try {
@@ -213,13 +213,13 @@ function handleUpdateEndpoint(elements, endpoint, socket) {
                 return;
             }
         }
-        
+
         socket.emit('updateConfig', newConfig);
         elements.updateBtn.disabled = true;
         elements.updateStatus.textContent = 'Updating...';
         elements.updateStatus.classList.remove('text-success');
         elements.updateStatus.classList.add('text-warning', 'show');
-        
+
     } catch (error) {
         alert('Invalid JSON in response body');
     }
@@ -231,17 +231,17 @@ async function handleTestEndpoint(elements, endpoint) {
         const currentEndpointName = elements.endpointNameInput.value.trim() || endpoint;
         const method = elements.endpointMethodSelect.value;
         const start = Date.now();
-        
+
         let fetchOptions = {
             method: method
         };
-        
+
         // For methods that support request bodies, use the custom request body from textarea
         if (METHODS_WITH_BODY.includes(method)) {
             fetchOptions.headers = {
                 'Content-Type': 'application/json'
             };
-            
+
             const requestBodyText = elements.testRequestBodyInput.value.trim();
             if (requestBodyText) {
                 try {
@@ -257,23 +257,23 @@ async function handleTestEndpoint(elements, endpoint) {
                 fetchOptions.body = JSON.stringify({});
             }
         }
-        
+
         const response = await fetch(window.configManager.getEndpointUrl(currentEndpointName), fetchOptions);
         const duration = Date.now() - start;
-        
+
         let responseText = `Status: ${response.status}\nDuration: ${duration}ms\n`;
-        
+
         if (METHODS_WITH_BODY.includes(method)) {
             responseText += `Request Body: ${fetchOptions.body}\n`;
         }
-        
+
         // Handle different response types
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             try {
                 const data = await response.json();
                 responseText += `Response: ${JSON.stringify(data, null, 2)}`;
-                
+
                 // Highlight validation errors if status is 400
                 if (response.status === 400 && data.error) {
                     elements.testResponse.style.color = '#dc3545'; // Bootstrap danger color
@@ -296,7 +296,7 @@ async function handleTestEndpoint(elements, endpoint) {
             responseText += `Response: ${text}`;
             elements.testResponse.style.color = ''; // Reset color
         }
-        
+
         elements.testResponse.textContent = responseText;
     } catch (error) {
         elements.testResponse.textContent = `Error: ${error.message}`;
@@ -347,11 +347,14 @@ export function renderEndpoints(configs, endpointElements, statusElements, socke
     });
     container.innerHTML = ''; // Clear container before re-appending
     container.appendChild(fragment);
+
+    // Update endpoint count
+    updateEndpointCount(newOrderEndpoints.length);
 }
 
 function updateExistingCard(elements, endpoint, config) {
     const method = config.method || 'GET';
-    
+
     elements.statusInput.value = config.statusCode;
     elements.delayInput.value = config.delay;
     elements.bodyInput.value = JSON.stringify(config.body, null, 2);
@@ -359,7 +362,7 @@ function updateExistingCard(elements, endpoint, config) {
     elements.endpointNameInput.value = endpoint;
     elements.endpointNameInput.dataset.originalEndpoint = endpoint;
     elements.endpointMethodSelect.value = method;
-    
+
     // Handle expectedFields and test request body
     if (METHODS_WITH_BODY.includes(method)) {
         elements.expectedFieldsSection.style.display = 'block';
@@ -374,7 +377,7 @@ function updateExistingCard(elements, endpoint, config) {
             elements.testRequestBodyInput.value = JSON.stringify(sampleBody, null, 2);
         } else {
             elements.expectedFieldsInput.value = '';
-            elements.testRequestBodyInput.value = JSON.stringify({"sample": "data"}, null, 2);
+            elements.testRequestBodyInput.value = JSON.stringify({ "sample": "data" }, null, 2);
         }
     } else {
         elements.expectedFieldsSection.style.display = 'none';
@@ -385,4 +388,44 @@ function updateExistingCard(elements, endpoint, config) {
 
     // Update displayed stats
     updateEndpointStats(elements.card, method, config);
+}
+
+// Update endpoint count badge
+function updateEndpointCount(count) {
+    const countElement = document.getElementById('endpointCount');
+    const container = document.getElementById('endpoints');
+
+    if (countElement) {
+        const text = count === 1 ? '1 endpoint' : `${count} endpoints`;
+        countElement.textContent = text;
+    }
+
+    // Show/hide empty state
+    if (count === 0) {
+        showEmptyState(container);
+    } else {
+        hideEmptyState(container);
+    }
+}
+
+// Show empty state when no endpoints exist
+function showEmptyState(container) {
+    const existingEmptyState = container.querySelector('.empty-state');
+    if (existingEmptyState) return;
+
+    const emptyState = document.createElement('div');
+    emptyState.className = 'empty-state';
+    emptyState.innerHTML = `
+        <h4>📭 No endpoints configured yet</h4>
+        <p>Create your first endpoint using the form above to get started</p>
+    `;
+    container.appendChild(emptyState);
+}
+
+// Hide empty state when endpoints exist
+function hideEmptyState(container) {
+    const emptyState = container.querySelector('.empty-state');
+    if (emptyState) {
+        emptyState.remove();
+    }
 }

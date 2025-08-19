@@ -22,7 +22,7 @@
   - [Testing Endpoints](#testing-endpoints)
   - [REST API](#rest-api)
 - [Configuration](#️-configuration)
-- [Cloud Deployment](#-cloud-deployment)
+- [Cloud Deployment](#cloud-deployment)
 - [Project Architecture](#️-project-architecture)
 - [Development](#️-development)
 - [Troubleshooting](#-troubleshooting)
