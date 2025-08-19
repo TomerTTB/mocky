@@ -1,9 +1,13 @@
 const cors = require('cors');
-const { CORS_ORIGIN, CORS_METHODS } = require('../config/constants');
 
-const corsMiddleware = cors({
-    origin: CORS_ORIGIN,
-    methods: CORS_METHODS
-});
+function createCorsMiddleware() {
+    const serverConfig = require('../config/serverConfig');
+    const config = serverConfig.getConfig();
+    
+    return cors({
+        origin: config.CORS_ORIGIN,
+        methods: config.CORS_METHODS
+    });
+}
 
-module.exports = corsMiddleware;
+module.exports = createCorsMiddleware;

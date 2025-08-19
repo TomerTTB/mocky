@@ -12,11 +12,12 @@ class ApiRoutes {
     setupRoutes() {
         // Get server configuration
         router.get('/config', (req, res) => {
-            const { BASE_URL, LOCAL_IP, API_PORT } = require('../config/constants');
+            const serverConfig = require('../config/serverConfig');
+            const config = serverConfig.getConfig();
             res.json({ 
-                baseUrl: BASE_URL,
-                localIp: LOCAL_IP,
-                port: API_PORT
+                baseUrl: config.BASE_URL,
+                localIp: config.LOCAL_IP,
+                port: config.API_PORT
             });
         });
 

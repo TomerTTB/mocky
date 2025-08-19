@@ -22,6 +22,7 @@
   - [Testing Endpoints](#testing-endpoints)
   - [REST API](#rest-api)
 - [Configuration](#️-configuration)
+- [Cloud Deployment](#-cloud-deployment)
 - [Project Architecture](#️-project-architecture)
 - [Development](#️-development)
 - [Troubleshooting](#-troubleshooting)
@@ -36,6 +37,7 @@
 ### Version 2.0 Features
 - **Full HTTP Methods Support**: Complete support for GET, POST, PUT, PATCH, and DELETE methods
 - **Advanced Request Validation**: Field-level validation for POST, PUT, and PATCH requests with detailed error responses
+- **Smart Cloud Deployment**: Auto-detects public IP on GCP, AWS, Azure - deploy anywhere without configuration
 - **Enhanced Testing Interface**: Built-in testing with custom request bodies and validation error display
 - **Redesigned UI**: Modern, organized interface with logical workflow sections
 - **Mobile-Responsive Design**: Optimized for all screen sizes and devices
@@ -48,6 +50,7 @@
 - **Dynamic Endpoint Management**: Add, update, and remove API endpoints on the fly via an intuitive web interface
 - **Real-time Configuration**: Instant updates across all connected clients using WebSocket technology
 - **Persistent Storage**: Automatic configuration persistence to `endpoints.json` with session recovery
+- **Smart Cloud Deployment**: Auto-detects public IP on any cloud platform - deploy once, run anywhere
 - **Customizable Responses**: Full control over HTTP status codes, JSON response bodies, and network delays
 
 ### HTTP Methods & Validation
@@ -415,6 +418,122 @@ The server starts with sample endpoints demonstrating different HTTP methods:
 | `/test-delete` | DELETE | DELETE example | Resource deletion example |
 
 These default endpoints can be modified or removed as needed through the web interface.
+
+## ☁️ Cloud Deployment
+
+### Smart IP Detection
+
+Mocky automatically detects the best IP address to use, making it **deploy-anywhere compatible**. The same code works seamlessly across different cloud platforms and VMs without any configuration changes.
+
+**Key Features:**
+- **🔍 Auto-Detection**: Automatically detects public IP from cloud metadata services
+- **🌐 Multi-Cloud Support**: Works on GCP, AWS, Azure, and private VMs
+- **🔧 Manual Override**: Environment variable support for custom configurations
+- **🔄 Zero Configuration**: Deploy the same code to any VM - it just works
+
+### Deployment Options
+
+#### Option 1: Automatic Detection (Recommended)
+
+Simply deploy and run - the server automatically detects your environment:
+
+```bash
+# Works on any cloud platform
+npm start
+```
+
+**Supported Platforms:**
+- **Google Cloud Platform**: Auto-detects from GCP metadata service
+- **AWS EC2**: Auto-detects from EC2 metadata service  
+- **Azure VMs**: Auto-detects from Azure instance metadata
+- **Private VMs**: Falls back to local network IP
+
+#### Option 2: Manual IP Override
+
+For custom deployments or when auto-detection needs override:
+
+```bash
+# Linux/Mac
+PUBLIC_IP=34.59.48.42 npm start
+
+# Windows PowerShell
+$env:PUBLIC_IP = "34.59.48.42"; npm start
+
+# Alternative environment variable
+SERVER_IP=34.59.48.42 npm start
+```
+
+#### Option 3: Using Startup Scripts
+
+**Linux/Mac:**
+```bash
+# Make executable and run
+chmod +x start.sh
+PUBLIC_IP=34.59.48.42 ./start.sh
+```
+
+**Windows:**
+```powershell
+# Set IP and run
+$env:PUBLIC_IP = "34.59.48.42"
+.\start.ps1
+```
+
+### Real-World Examples
+
+| Deployment Scenario | Command | Result |
+|---------------------|---------|--------|
+| **GCP VM** | `npm start` | `http://34.59.48.42:3003` |
+| **AWS EC2** | `npm start` | `http://52.123.45.67:3003` |
+| **Azure VM** | `npm start` | `http://20.98.76.54:3003` |
+| **Docker Container** | `PUBLIC_IP=host-ip npm start` | `http://host-ip:3003` |
+| **Private Network** | `PUBLIC_IP=192.168.1.100 npm start` | `http://192.168.1.100:3003` |
+
+### IP Detection Priority
+
+The system uses this priority order to determine the best IP:
+
+1. **Environment Variables** (highest priority)
+   - `PUBLIC_IP` - Primary override variable
+   - `SERVER_IP` - Alternative override variable
+
+2. **Cloud Metadata Services** (automatic)
+   - Google Cloud Platform metadata
+   - AWS EC2 metadata service
+   - Azure instance metadata service
+
+3. **Local Network Interface** (fallback)
+   - First non-loopback IPv4 address
+   - Falls back to `localhost` if no network interface found
+
+### CORS Configuration
+
+The server automatically configures CORS to allow access from multiple origins:
+
+- **Public IP**: `http://your-public-ip:3003`
+- **Localhost**: `http://localhost:3003` 
+- **127.0.0.1**: `http://127.0.0.1:3003`
+
+This ensures the web interface works whether accessed via public IP or localhost.
+
+### Verification
+
+After deployment, check the console output to verify correct IP detection:
+
+```bash
+Mock API server running on http://34.59.48.42:3003
+Web interface available at http://34.59.48.42:3003
+Server IP: 34.59.48.42
+```
+
+### Troubleshooting Deployment
+
+| Issue | Solution |
+|-------|----------|
+| **Wrong IP detected** | Set `PUBLIC_IP` environment variable |
+| **Can't access from browser** | Check firewall rules for port 3003 |
+| **CORS errors** | Server auto-configures CORS - try different browser |
+| **Cloud metadata fails** | System falls back to local IP automatically |
 
 ## 🏗️ Project Architecture
 

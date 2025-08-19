@@ -19,7 +19,15 @@ if (-not (Test-Path "node_modules")) {
 
 # Start the server
 Write-Host "Starting Mock Server..." -ForegroundColor Green
-Write-Host "The server will auto-detect your machine's IP address" -ForegroundColor Cyan
+
+# Check for PUBLIC_IP environment variable
+if ($env:PUBLIC_IP) {
+    Write-Host "Using PUBLIC_IP from environment: $env:PUBLIC_IP" -ForegroundColor Cyan
+} else {
+    Write-Host "Auto-detecting IP address..." -ForegroundColor Cyan
+    Write-Host "Tip: Set PUBLIC_IP environment variable for cloud deployments" -ForegroundColor Yellow
+    Write-Host "Example: `$env:PUBLIC_IP = '34.59.48.42'; .\start.ps1`" -ForegroundColor Yellow
+}
 Write-Host "Press Ctrl+C to stop the server" -ForegroundColor Yellow
 
 npm start
